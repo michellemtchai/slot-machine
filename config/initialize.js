@@ -13,7 +13,12 @@ module.exports = (app, express) => {
 
     if (process.env.APP_ENV == 'development') {
         // allow cross-origin requests
-        app.use(cors());
+        app.use(
+            cors({
+                origin: `http://localhost:${process.env.FRONTEND_PORT}`,
+                credentials: true,
+            })
+        );
     } else {
         app.use(
             cors({
