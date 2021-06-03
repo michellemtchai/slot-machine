@@ -1,6 +1,6 @@
 module.exports = {
     gameResult: (credit) => {
-        let rollResult = rollBlocks();
+        let rollResult = rollSlots();
         if (credit < 40) {
             return rollResult;
         } else if (credit >= 40 && credit <= 60) {
@@ -23,7 +23,7 @@ const CREDIT_MAPPING = {
     O: 30,
     W: 40,
 };
-const rollBlocks = () => {
+const rollSlots = () => {
     let symbols = Object.keys(CREDIT_MAPPING);
     let rollOnce = () => {
         let index = getRandomInt(symbols.length);
@@ -50,7 +50,7 @@ const reroll = (rollResult, rerollProb) => {
     if (won) {
         let rerollRand = getRandomInt(100);
         if (rerollRand < rerollProb) {
-            return rollBlocks();
+            return rollSlots();
         } else {
             return rollResult;
         }
