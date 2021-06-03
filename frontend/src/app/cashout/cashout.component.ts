@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-cashout',
-  templateUrl: './cashout.component.html',
-  styleUrls: ['./cashout.component.css']
+    selector: 'app-cashout',
+    templateUrl: './cashout.component.html',
+    styleUrls: ['./cashout.component.css'],
 })
 export class CashoutComponent implements OnInit {
+    constructor() {}
 
-  constructor() { }
+    ngOnInit(): void {}
 
-  ngOnInit(): void {
-  }
-
+    cashout(): void {
+        console.log('cashout');
+    }
 }

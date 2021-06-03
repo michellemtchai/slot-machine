@@ -7,11 +7,11 @@ module.exports = {
         });
     },
     play: (req, res) => {
-        let credit = parseInt(req.params.credit);
+        let credit = parseInt(req.body.credit);
         let [won, rollResult] = gameLogic.gameResult(credit);
         res.json({
             won: won,
-            values: rollResult,
+            blocks: rollResult,
             credit: gameLogic.calculateCredit(
                 credit,
                 rollResult[0],

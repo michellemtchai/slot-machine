@@ -1,12 +1,15 @@
+<app-credit-status [credit]="credit"></app-credit-status>
 <section class="slot-machine">
     <table>
         <tbody>
             <tr>
                 <td *ngFor="let block of blocks">
-                    <img [src]="block" />
+                    <figure>
+                        <img [src]="getBlockImage(block)" />
+                    </figure>
                 </td>
             </tr>
         </tbody>
     </table>
-    <button>Play</button>
+    <button (click)="play()">Play</button>
 </section>

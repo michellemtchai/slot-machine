@@ -30,11 +30,15 @@ section.slot-machine > table {
 section.slot-machine > table > tbody > tr > td {
     width: calc(100% / 3);
 }
-section.slot-machine > table > tbody > tr > td > img {
+section.slot-machine > table > tbody > tr > td > figure {
     margin: 25px;
     padding: 20px;
     width: calc(100% - 90px);
     background: #fff;
+    display: block;
+}
+section.slot-machine > table > tbody > tr > td > figure > img {
+    width: 100%;
 }
 @media only screen and (max-width: 850px) {
     section.slot-machine > button {
@@ -57,7 +61,7 @@ section.slot-machine > table > tbody > tr > td > img {
     }
 }
 @media only screen and (max-width: 600px) {
-    section.slot-machine > table > tbody > tr > td > img {
+    section.slot-machine > table > tbody > tr > td > figure {
         margin: 15px;
         padding: 15px;
         width: calc(100% - 60px);
