@@ -11,9 +11,11 @@ import { RollResult } from '../interfaces';
 export class SlotMachineComponent implements OnInit {
     credit: number;
     blocks: Array<string>;
+    rolling: boolean;
     constructor(private http: HttpClient) {
         this.blocks = new Array<string>('C', 'L', 'O');
         this.credit = 0;
+        this.rolling = false;
     }
     ngOnInit(): void {
         this.http
@@ -23,17 +25,22 @@ export class SlotMachineComponent implements OnInit {
             });
     }
     play(): void {
-        this.blocks = new Array<string>('', '', '');
-        this.http
-            .post<RollResult>(
-                `${environment.API_BASE_URL}/game/play`,
-                {
-                    credit: this.credit,
-                }
-            )
-            .subscribe((data: RollResult) => {
-                this.updateGameState(data, 0);
-            });
+        if (!this.rolling) {
+            this.blocks = new Array<string>('', '', '');
+            this.rolling = true;
+            this.http
+                .post<RollResult>(
+                    `${environment.API_BASE_URL}/game/play`,
+                    {
+                        credit: this.credit,
+                    }
+                )
+                .subscribe((data: RollResult) => {
+                    this.updateGameState(data, 0);
+                });
+        } else {
+            alert('The slot machine is still rolling.');
+        }
     }
     getBlockImage(block: string): string {
         let formatFile = (name: string) => `/assets/${name}.svg`;
@@ -58,6 +65,7 @@ export class SlotMachineComponent implements OnInit {
             }, 1000);
         } else {
             this.credit = data.credit;
+            this.rolling = false;
         }
     }
 }
