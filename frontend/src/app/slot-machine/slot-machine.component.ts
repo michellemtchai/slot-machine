@@ -13,27 +13,43 @@ export class SlotMachineComponent implements OnInit {
     credit: number;
     blocks: Array<string>;
     rolling: boolean;
+    defaultSlots: Array<string> = new Array<string>(
+        'C',
+        'L',
+        'O'
+    );
     constructor(private http: HttpClient) {
-        this.blocks = new Array<string>('C', 'L', 'O');
+        this.blocks = this.defaultSlots;
         this.credit = 0;
         this.rolling = false;
     }
     ngOnInit(): void {
+        this.newGame();
+    }
+    newGame(): void {
         api.get(this.http, '/game/start').subscribe(
             (data: any) => {
                 this.credit = data.credit;
+                this.blocks = this.defaultSlots;
             }
         );
     }
     play(): void {
         if (!this.rolling) {
-            this.blocks = new Array<string>('', '', '');
-            this.rolling = true;
-            api.post(this.http, '/game/play').subscribe(
-                (data: RollResult) => {
-                    this.updateGameState(data, -1);
+            if (this.credit === 0) {
+                let reply = confirm(gameEnds);
+                if (reply) {
+                    this.newGame();
                 }
-            );
+            } else {
+                this.blocks = new Array<string>('', '', '');
+                this.rolling = true;
+                api.post(this.http, '/game/play').subscribe(
+                    (data: RollResult) => {
+                        this.updateGameState(data, -1);
+                    }
+                );
+            }
         } else {
             alert('The slot machine is still rolling.');
         }
@@ -67,3 +83,6 @@ export class SlotMachineComponent implements OnInit {
         }
     }
 }
+
+const gameEnds =
+    'You have no more credit. Do you want to start a new game?';
