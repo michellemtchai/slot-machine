@@ -27,8 +27,14 @@ section.slot-machine > table {
     display: inline-block;
     border-collapse: collapse;
 }
+section.slot-machine > table > tbody,
+section.slot-machine > table > tbody > tr {
+    width: 100%;
+    display: block;
+}
 section.slot-machine > table > tbody > tr > td {
     width: calc(100% / 3);
+    display: inline-block;
 }
 section.slot-machine > table > tbody > tr > td > figure {
     margin: 25px;
