@@ -25,4 +25,7 @@ module.exports = (app, express) => {
         process.env.APP_PUBLIC_URL,
         express.static('public')
     );
+
+    // set view engine as ejs
+    app.set('view engine', 'ejs');
 };

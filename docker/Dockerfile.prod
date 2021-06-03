@@ -1,5 +1,8 @@
 FROM node:14-alpine
 
+# setup global packages
+RUN yarn global add @angular/cli
+
 WORKDIR /app
 
 # Bundle app source
@@ -10,7 +13,7 @@ RUN yarn install --production
 
 # Build Angular app
 WORKDIR /app/frontend
-RUN yarn install --production
+RUN yarn install
 RUN yarn build
 
 # Go back to app root
@@ -18,3 +21,5 @@ WORKDIR /app
 
 # copy react build files
 RUN mv /app/frontend/build/* /app/public
+RUN node /app/docker/build-frontend.js
+RUN rm /app/.env

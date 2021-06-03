@@ -1,0 +1,15 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="theme-color" content="<%= process.env.APP_THEME_COLOR %>" />
+<meta name="description" content="<%= process.env.APP_DESC %>" />
+
+<% for(let i = 0; i < icons.length; i++){ %>
+    <link rel="<%= icons[i].rel %>" href="<%= icons[i].src %>" />
+<% } %>
+<link rel="manifest" href="<%= process.env.APP_PUBLIC_URL %>/manifest.json" />
+
+<title><%= process.env.APP_NAME %></title>
+<% for(let i = 0; i < assets.css.length; i++){ %>
+    <link href="<%= process.env.APP_PUBLIC_URL %>/<%= assets.css[i] %>" rel="stylesheet" />
+<% } %>

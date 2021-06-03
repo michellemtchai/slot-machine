@@ -1,9 +1,19 @@
+const manifestData = require('../assets/manifest');
+const rootPath = require('path').resolve(__dirname, '../');
+
 module.exports = {
     index: (req, res) => {
         if (process.env.APP_ENV === 'production') {
-            res.json({ message: 'app running in production' });
+            res.sendFile(`${rootPath}/public/index.html`);
         } else {
-            res.json({ message: 'app running' });
+            res.render('pages/index', {
+                rootPath: `${rootPath}/views`,
+                assets: {
+                    js: [],
+                    css: [],
+                },
+                icons: manifestData.icons,
+            });
         }
     },
 };
