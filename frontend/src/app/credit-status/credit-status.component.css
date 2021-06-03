@@ -1,0 +1,12 @@
+section.credit-status {
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    padding: 10px 20px;
+    background: #777;
+    color: #fff;
+    height: 20px;
+}
+section.credit-status > h2 {
+    margin: 0;
+    font-size: 20px;
+}

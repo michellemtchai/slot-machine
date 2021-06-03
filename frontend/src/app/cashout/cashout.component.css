@@ -1,0 +1,17 @@
+section.cashout button {
+    font-weight: bold;
+    color: #fff;
+    background: #337ab7;
+    padding: 5px 10px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 20px;
+    border: none;
+}
+section.cashout button:hover {
+    background: #286090;
+}
+section.cashout button:active {
+    outline: none;
+    background: #000;
+}
