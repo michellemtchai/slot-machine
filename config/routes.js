@@ -15,6 +15,6 @@ module.exports = (app) => {
     app.post('/game/play', GameController.play);
     app.post('/game/cashout', GameController.cashout);
 
-    //The 404 Route (ALWAYS Keep this as the last route)
-    app.get('*', ApplicationController.index);
+    // //The 404 Route (ALWAYS Keep this as the last route)
+    // app.get('*', ApplicationController.index);
 };

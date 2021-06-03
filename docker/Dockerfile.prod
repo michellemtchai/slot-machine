@@ -15,7 +15,7 @@ RUN yarn install --production
 WORKDIR /app/frontend
 RUN yarn install
 RUN mkdir -p ./src/environments
-RUN node ../docker/set-env.js
+RUN node ../docker/setup.js
 RUN yarn build
 
 # Go back to app root

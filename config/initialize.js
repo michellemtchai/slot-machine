@@ -2,6 +2,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const favicon = require('serve-favicon');
+const session = require('express-session');
 
 module.exports = (app, express) => {
     // use gzip compression
@@ -13,6 +14,12 @@ module.exports = (app, express) => {
     if (process.env.APP_ENV == 'development') {
         // allow cross-origin requests
         app.use(cors());
+    } else {
+        app.use(
+            cors({
+                credentials: true,
+            })
+        );
     }
     // parse request body
     app.use(
@@ -28,4 +35,19 @@ module.exports = (app, express) => {
 
     // set view engine as ejs
     app.set('view engine', 'ejs');
+
+    // setup session
+    if (process.env.APP_ENV === 'production') {
+        app.set('trust proxy', 1); // trust first proxy
+    }
+    app.use(
+        session({
+            secret: process.env.APP_SESSION_KEY,
+            cookie: {
+                secure: process.env.APP_ENV === 'production',
+            },
+            resave: false,
+            saveUninitialized: true,
+        })
+    );
 };

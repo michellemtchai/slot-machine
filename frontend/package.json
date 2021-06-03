@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "scripts": {
         "config": "node ./set-env.js",
-        "start": "NODE_OPTIONS=--max_old_space_size=4096 ng serve --poll=2000 --port $FRONTEND_PORT --host $APP_HOST",
+        "start": "ng serve --poll=2000 --port $FRONTEND_PORT --host $APP_HOST --proxy-config proxy.conf.json",
         "build": "ng build",
         "test": "ng test"
     },

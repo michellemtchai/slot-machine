@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { RollResult } from '../interfaces';
+import { api } from '../api';
 
 @Component({
     selector: 'app-slot-machine',
@@ -18,26 +19,21 @@ export class SlotMachineComponent implements OnInit {
         this.rolling = false;
     }
     ngOnInit(): void {
-        this.http
-            .get<any>(`${environment.API_BASE_URL}/game/start`)
-            .subscribe((data: any) => {
+        api.get(this.http, '/game/start').subscribe(
+            (data: any) => {
                 this.credit = data.credit;
-            });
+            }
+        );
     }
     play(): void {
         if (!this.rolling) {
             this.blocks = new Array<string>('', '', '');
             this.rolling = true;
-            this.http
-                .post<RollResult>(
-                    `${environment.API_BASE_URL}/game/play`,
-                    {
-                        credit: this.credit,
-                    }
-                )
-                .subscribe((data: RollResult) => {
-                    this.updateGameState(data, 0);
-                });
+            api.post(this.http, '/game/play').subscribe(
+                (data: RollResult) => {
+                    this.updateGameState(data, -1);
+                }
+            );
         } else {
             alert('The slot machine is still rolling.');
         }
@@ -60,7 +56,9 @@ export class SlotMachineComponent implements OnInit {
     updateGameState(data: RollResult, index: number): void {
         if (index < this.blocks.length) {
             setTimeout(() => {
-                this.blocks[index] = data.blocks[index];
+                if (index >= 0) {
+                    this.blocks[index] = data.blocks[index];
+                }
                 this.updateGameState(data, index + 1);
             }, 1000);
         } else {

@@ -124,3 +124,4 @@ docs/
 Thumbs.db
 build
 frontend/src/environments/
+frontend/proxy.conf.json

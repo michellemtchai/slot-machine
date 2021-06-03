@@ -11,5 +11,5 @@ function yarn_start(){
 yarn_install /
 yarn_install /frontend
 mkdir -p ./src/environments
-node ../docker/set-env.js
+node ../docker/setup.js
 yarn_start / & yarn_start /frontend
