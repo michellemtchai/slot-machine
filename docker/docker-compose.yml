@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+    app:
+        ports:
+            - ${APP_PORT}:${APP_PORT}
+            - ${FRONTEND_PORT}:${FRONTEND_PORT}
+        environment:
+            NODE_ENV: ${APP_ENV}
+            APP_ENV: ${APP_ENV}
+            APP_PORT: ${APP_PORT}
+            APP_HOST: ${APP_HOST}
+            APP_PUBLIC_URL: ${APP_PUBLIC_URL}
+            FRONTEND_PORT: ${FRONTEND_PORT}
