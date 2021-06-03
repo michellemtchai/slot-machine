@@ -2,7 +2,8 @@
     "name": "frontend",
     "version": "0.0.0",
     "scripts": {
-        "start": "ng serve --port $FRONTEND_PORT --host $APP_HOST",
+        "config": "node ./set-env.js",
+        "start": "ng serve --poll=2000 --port $FRONTEND_PORT --host $APP_HOST",
         "build": "ng build",
         "test": "ng test"
     },

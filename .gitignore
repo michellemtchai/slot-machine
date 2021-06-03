@@ -123,3 +123,4 @@ docs/
 
 Thumbs.db
 build
+frontend/src/environments/
