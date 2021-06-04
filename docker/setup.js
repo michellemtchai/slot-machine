@@ -20,6 +20,7 @@ const apiBaseUrl = !productionMode
 const envFile = '../frontend/src/environments/environment.ts';
 const envData = `export const environment = {
     APP_NAME: '${process.env.APP_NAME}',
+    APP_PUBLIC_URL: '${process.env.APP_PUBLIC_URL}',
     API_BASE_URL: '${apiBaseUrl}',
     NODE_ENV: '${process.env.NODE_ENV}',
     production: ${productionMode},
@@ -27,16 +28,16 @@ const envData = `export const environment = {
 `;
 writeFile(envFile, envData);
 
-const proxyFile = '../frontend/proxy.conf.json';
-const proxyData = !productionMode
-    ? {
-          '/game/*': {
-              target: apiBaseUrl,
-              secure: false,
-              logLevel: 'debug',
-              changeOrigin: true,
-              pathRewrite: { '^/game': '' },
-          },
-      }
-    : {};
-writeFile(proxyFile, JSON.stringify(proxyData));
+if (!productionMode) {
+    const proxyFile = '../frontend/proxy.conf.json';
+    const proxyData = {
+        '/game/*': {
+            target: apiBaseUrl,
+            secure: false,
+            logLevel: 'debug',
+            changeOrigin: true,
+            pathRewrite: { '^/game': '' },
+        },
+    };
+    writeFile(proxyFile, JSON.stringify(proxyData));
+}

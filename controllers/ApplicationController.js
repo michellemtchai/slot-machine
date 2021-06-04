@@ -3,7 +3,7 @@ const rootPath = require('path').resolve(__dirname, '../');
 
 module.exports = {
     index: (req, res) => {
-        if (process.env.APP_ENV === 'production') {
+        if (process.env.NODE_ENV === 'production') {
             res.sendFile(`${rootPath}/public/index.html`);
         } else {
             res.render('pages/index', {

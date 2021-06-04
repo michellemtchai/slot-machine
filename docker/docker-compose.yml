@@ -8,7 +8,6 @@ services:
         environment:
             NODE_ENV: ${APP_ENV}
             NODE_OPTIONS: ${NODE_OPTIONS}
-            APP_ENV: ${APP_ENV}
             APP_PORT: ${APP_PORT}
             APP_HOST: ${APP_HOST}
             APP_SESSION_KEY: ${APP_SESSION_KEY}

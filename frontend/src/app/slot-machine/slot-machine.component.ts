@@ -63,7 +63,12 @@ export class SlotMachineComponent implements OnInit {
         );
     };
     getBlockImage(block: string): string {
-        let formatFile = (name: string) => `/assets/${name}.svg`;
+        let formatFile = (name: string) => {
+            let prefix = environment.production
+                ? environment.APP_PUBLIC_URL
+                : '';
+            return `${prefix}/assets/${name}.svg`;
+        };
         switch (block) {
             case 'C':
                 return formatFile('cherries');

@@ -8,7 +8,7 @@
             You need to enable JavaScript to run this app.
         </noscript>
         <app-root></app-root>
-        <%if (process.env.APP_ENV == 'development') { %>
+        <%if (process.env.NODE_ENV == 'development') { %>
             <p>
                 You're in development mode. Please visit
                 <a href="http://localhost:<%= process.env.FRONTEND_PORT %>">localhost:<%= process.env.FRONTEND_PORT %></a>

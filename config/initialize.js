@@ -11,7 +11,7 @@ module.exports = (app, express) => {
     // set favicon
     app.use(favicon('/app/public/favicon.ico'));
 
-    if (process.env.APP_ENV == 'development') {
+    if (process.env.NODE_ENV == 'development') {
         // allow cross-origin requests
         app.use(
             cors({
@@ -42,14 +42,14 @@ module.exports = (app, express) => {
     app.set('view engine', 'ejs');
 
     // setup session
-    if (process.env.APP_ENV === 'production') {
+    if (process.env.NODE_ENV === 'production') {
         app.set('trust proxy', 1); // trust first proxy
     }
     app.use(
         session({
             secret: process.env.APP_SESSION_KEY,
             cookie: {
-                secure: process.env.APP_ENV === 'production',
+                secure: process.env.NODE_ENV === 'production',
             },
             resave: false,
             saveUninitialized: true,
