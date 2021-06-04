@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { RollResult, GameEnd } from '../interfaces';
 import { api } from '../api';
+import { cashout } from '../cashout/cashout';
 
 @Component({
     selector: 'app-slot-machine',
@@ -61,11 +62,16 @@ export class SlotMachineComponent implements OnInit {
         }
     }
     cashout = () => {
-        api.post(this.http, '/game/cashout').subscribe(
-            (data: any) => {
-                this.restartGame(data);
-            }
-        );
+        let disabledProb = cashout.getRandomInt(100);
+        if (disabledProb < 40) {
+            api.post(this.http, '/game/cashout').subscribe(
+                (data: any) => {
+                    this.restartGame(data);
+                }
+            );
+        } else {
+            alert(cashout.cashoutFailed);
+        }
     };
     getBlockImage(block: string): string {
         let formatFile = (name: string) => `/assets/${name}.svg`;
@@ -104,3 +110,6 @@ export class SlotMachineComponent implements OnInit {
         }
     }
 }
+const getRandomInt = (max: number) => {
+    return Math.floor(Math.random() * max);
+};

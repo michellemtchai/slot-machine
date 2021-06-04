@@ -1,3 +1,10 @@
 <section class="cashout">
-    <button (click)="cashout()">Cash Out</button>
+    <button
+        (click)="cashoutAction()"
+        (mouseenter)="moveButton()"
+        [style.margin-top.px]="y"
+        [style.margin-left.px]="x"
+    >
+        Cash Out
+    </button>
 </section>
