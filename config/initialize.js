@@ -3,8 +3,9 @@ const bodyParser = require('body-parser');
 const compression = require('compression');
 const favicon = require('serve-favicon');
 const session = require('express-session');
+const MongoStore = require('connect-mongodb-session')(session);
 
-module.exports = (app, express) => {
+module.exports = (app, express, next) => {
     // use gzip compression
     app.use(compression());
 
@@ -45,6 +46,15 @@ module.exports = (app, express) => {
     if (process.env.NODE_ENV === 'production') {
         app.set('trust proxy', 1); // trust first proxy
     }
+    let {
+        DB_USERNAME,
+        DB_PASSWORD,
+        DB_HOST,
+        DB_PORT,
+        DB_DATA,
+    } = process.env;
+
+    let mongoUri = `mongodb://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_DATA}?authSource=admin`;
     app.use(
         session({
             secret: process.env.APP_SESSION_KEY,
@@ -53,6 +63,22 @@ module.exports = (app, express) => {
             },
             resave: false,
             saveUninitialized: true,
+            store: new MongoStore(
+                {
+                    uri: mongoUri,
+                },
+                (err) => {
+                    if (err) {
+                        console.error(
+                            'Not Connected to Database ERROR! ',
+                            err
+                        );
+                    } else {
+                        console.log('Connected to Database');
+                        next();
+                    }
+                }
+            ),
         })
     );
 };

@@ -6,7 +6,7 @@ services:
             - ${APP_PORT}:${APP_PORT}
             - ${FRONTEND_PORT}:${FRONTEND_PORT}
         environment:
-            NODE_ENV: ${APP_ENV}
+            NODE_ENV: ${NODE_ENV}
             NODE_OPTIONS: ${NODE_OPTIONS}
             APP_PORT: ${APP_PORT}
             APP_HOST: ${APP_HOST}
@@ -18,3 +18,21 @@ services:
             APP_THEME_COLOR: ${APP_THEME_COLOR}
             APP_BACKGROUND_COLOR: ${APP_BACKGROUND_COLOR}
             FRONTEND_PORT: ${FRONTEND_PORT}
+            DB_USERNAME: ${DB_USERNAME}
+            DB_PASSWORD: ${DB_PASSWORD}
+            DB_HOST: ${DB_HOST}
+            DB_PORT: ${DB_PORT}
+            DB_DATA: ${DB_DATA}
+        depends_on:
+            - mongodb
+    mongodb:
+        image: mongo
+        ports:
+            - ${DB_PORT}:${DB_PORT}
+        volumes:
+            - db_data:/data/db
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+            MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+volumes:
+    db_data:
