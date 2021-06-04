@@ -1,9 +1,13 @@
 <section class="cashout">
     <button
-        (click)="cashoutAction()"
-        (mouseenter)="moveButton()"
-        [style.margin-top.px]="y"
-        [style.margin-left.px]="x"
+        (click)="buttonAction()"
+        (mouseover)="moveButton()"
+        (mouseleave)="resetButton()"
+        [style.width.px]="button.width"
+        [style.height.px]="button.height"
+        [style.margin-top.px]="position.y"
+        [style.margin-left.px]="position.x"
+        [className]="buttonClass()"
     >
         Cash Out
     </button>

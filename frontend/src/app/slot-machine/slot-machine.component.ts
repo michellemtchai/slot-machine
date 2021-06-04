@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { RollResult, GameEnd } from '../interfaces';
 import { api } from '../api';
-import { cashout } from '../cashout/cashout';
 
 @Component({
     selector: 'app-slot-machine',
@@ -14,13 +13,8 @@ export class SlotMachineComponent implements OnInit {
     credit: number;
     blocks: Array<string>;
     rolling: boolean;
-    defaultSlots: Array<string> = new Array<string>(
-        'C',
-        'L',
-        'O'
-    );
     constructor(private http: HttpClient) {
-        this.blocks = this.defaultSlots;
+        this.blocks = defaultSlots;
         this.credit = 0;
         this.rolling = false;
     }
@@ -31,7 +25,7 @@ export class SlotMachineComponent implements OnInit {
         api.get(this.http, '/game/start').subscribe(
             (data: any) => {
                 this.credit = data.credit;
-                this.blocks = this.defaultSlots;
+                this.blocks = defaultSlots;
             }
         );
     }
@@ -62,16 +56,11 @@ export class SlotMachineComponent implements OnInit {
         }
     }
     cashout = () => {
-        let disabledProb = cashout.getRandomInt(100);
-        if (disabledProb < 40) {
-            api.post(this.http, '/game/cashout').subscribe(
-                (data: any) => {
-                    this.restartGame(data);
-                }
-            );
-        } else {
-            alert(cashout.cashoutFailed);
-        }
+        api.post(this.http, '/game/cashout').subscribe(
+            (data: any) => {
+                this.restartGame(data);
+            }
+        );
     };
     getBlockImage(block: string): string {
         let formatFile = (name: string) => `/assets/${name}.svg`;
@@ -110,6 +99,8 @@ export class SlotMachineComponent implements OnInit {
         }
     }
 }
-const getRandomInt = (max: number) => {
-    return Math.floor(Math.random() * max);
-};
+const defaultSlots: Array<string> = new Array<string>(
+    'C',
+    'L',
+    'O'
+);

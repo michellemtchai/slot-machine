@@ -7,3 +7,11 @@ export interface GameEnd {
     inSession: boolean;
     message: string;
 }
+export interface Dimension {
+    width: number;
+    height: number;
+}
+export interface Coordinate {
+    x: number;
+    y: number;
+}
