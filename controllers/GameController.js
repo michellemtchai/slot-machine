@@ -9,7 +9,7 @@ module.exports = {
     },
     play: (req, res) => {
         let credit = req.session.credit;
-        if (credit === 0) {
+        if (!credit || credit === 0) {
             gameLogic.clearSession(req, res, {
                 inSession: false,
                 message: noCredit,
