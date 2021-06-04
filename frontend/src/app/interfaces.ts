@@ -1,5 +1,9 @@
 export interface RollResult {
+    inSession: boolean;
     blocks: Array<string>;
     credit: number;
-    won: boolean;
+}
+export interface GameEnd {
+    inSession: boolean;
+    message: string;
 }

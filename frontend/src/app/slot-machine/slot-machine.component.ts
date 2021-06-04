@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { RollResult } from '../interfaces';
+import { RollResult, GameEnd } from '../interfaces';
 import { api } from '../api';
 
 @Component({
@@ -36,24 +36,37 @@ export class SlotMachineComponent implements OnInit {
     }
     play(): void {
         if (!this.rolling) {
-            if (this.credit === 0) {
-                let reply = confirm(gameEnds);
-                if (reply) {
-                    this.newGame();
-                }
-            } else {
+            let prev = this.blocks;
+            if (this.credit > 0) {
                 this.blocks = new Array<string>('', '', '');
                 this.rolling = true;
-                api.post(this.http, '/game/play').subscribe(
-                    (data: RollResult) => {
-                        this.updateGameState(data, -1);
-                    }
-                );
             }
+            api.post(
+                this.http,
+                '/game/play',
+                (error: string) => {
+                    this.blocks = prev;
+                    this.rolling = false;
+                    alert(error);
+                }
+            ).subscribe((data: any) => {
+                if (data.inSession) {
+                    this.updateGameState(data, -1);
+                } else {
+                    this.restartGame(data);
+                }
+            });
         } else {
             alert('The slot machine is still rolling.');
         }
     }
+    cashout = () => {
+        api.post(this.http, '/game/cashout').subscribe(
+            (data: any) => {
+                this.restartGame(data);
+            }
+        );
+    };
     getBlockImage(block: string): string {
         let formatFile = (name: string) => `/assets/${name}.svg`;
         switch (block) {
@@ -82,7 +95,12 @@ export class SlotMachineComponent implements OnInit {
             this.rolling = false;
         }
     }
+    restartGame(data: GameEnd): void {
+        if (this.credit !== 0) {
+            this.credit = 0;
+        }
+        if (confirm(data.message)) {
+            this.newGame();
+        }
+    }
 }
-
-const gameEnds =
-    'You have no more credit. Do you want to start a new game?';

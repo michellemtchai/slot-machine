@@ -9,29 +9,43 @@ module.exports = {
     },
     play: (req, res) => {
         let credit = req.session.credit;
-        let [won, rollResult] = gameLogic.gameResult(credit);
-        credit = gameLogic.calculateCredit(
-            credit,
-            rollResult[0],
-            won
-        );
-        req.session.credit = credit;
-        res.json({
-            won: won,
-            blocks: rollResult,
-            credit: credit,
-        });
+        if (credit === 0) {
+            gameLogic.clearSession(req, res, {
+                inSession: false,
+                message: noCredit,
+            });
+        } else {
+            let [won, rollResult] = gameLogic.gameResult(credit);
+            credit = gameLogic.calculateCredit(
+                credit,
+                rollResult[0],
+                won
+            );
+            req.session.credit = credit;
+            res.json({
+                inSession: true,
+                blocks: rollResult,
+                credit: credit,
+            });
+        }
     },
     cashout: (req, res) => {
-        let credit = req.body.credit;
-        req.session.destroy((err) => {
-            if (err) {
-                res.status(404).json(err);
-            } else {
-                res.json({
-                    message: `You saved ${credit} credits to your account`,
-                });
-            }
-        });
+        let credit = req.session.credit;
+        if (credit) {
+            gameLogic.clearSession(req, res, {
+                inSession: false,
+                message: savedCredit(credit),
+            });
+        } else {
+            res.json({
+                inSession: false,
+                message: noCredit,
+            });
+        }
     },
 };
+
+const noCredit =
+    'You have no more credit. Do you want to start a new game?';
+const savedCredit = (credit) =>
+    `You saved ${credit} credits to your account. Do you want to start a new game?`;

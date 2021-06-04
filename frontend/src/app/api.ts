@@ -9,17 +9,26 @@ import { Observable, ObservableInput, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 export const api = {
-    get(http: HttpClient, route: string): Observable<any> {
+    get(
+        http: HttpClient,
+        route: string,
+        errorFn: (err: string) => void = alert
+    ): Observable<any> {
         return http
             .get<any>(
                 environment.API_BASE_URL + route,
                 httpOptions
             )
-            .pipe(catchError(handleError));
+            .pipe(
+                catchError((e: HttpErrorResponse) =>
+                    handleError(e, errorFn)
+                )
+            );
     },
     post(
         http: HttpClient,
         route: string,
+        errorFn: (err: string) => void = alert,
         params: any = {}
     ): Observable<any> {
         return http
@@ -28,7 +37,11 @@ export const api = {
                 params,
                 httpOptions
             )
-            .pipe(catchError(handleError));
+            .pipe(
+                catchError((e: HttpErrorResponse) =>
+                    handleError(e, errorFn)
+                )
+            );
     },
 };
 const httpOptions = {
@@ -39,13 +52,15 @@ const httpOptions = {
     withCredentials: true,
 };
 const handleError = (
-    error: HttpErrorResponse
+    error: HttpErrorResponse,
+    errorFn: (err: string) => void
 ): ObservableInput<any> => {
     let errorMessage: string;
     if (error.status === 0) {
-        errorMessage = `An error occurred: ${error.error}`;
+        errorMessage = `Error: ${error.error}`;
     } else {
-        errorMessage = `Backend returned code ${error.status}, body was: ${error.error}`;
+        errorMessage = `Error Code: ${error.status}\nMessage: ${error.error.message}`;
     }
+    errorFn(errorMessage);
     return throwError(errorMessage);
 };

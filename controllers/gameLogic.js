@@ -13,6 +13,15 @@ module.exports = {
         let creditDiff = won ? CREDIT_MAPPING[value] : -1;
         return credit + creditDiff;
     },
+    clearSession: (req, res, response) => {
+        req.session.destroy((err) => {
+            if (err) {
+                res.status(404).json(err);
+            } else {
+                res.json(response);
+            }
+        });
+    },
 };
 
 // helper functions
