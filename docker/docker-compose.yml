@@ -11,6 +11,7 @@ services:
             APP_PORT: ${APP_PORT}
             APP_HOST: ${APP_HOST}
             APP_SESSION_KEY: ${APP_SESSION_KEY}
+            APP_USE_HTTPS: ${APP_USE_HTTPS}
             APP_PUBLIC_URL: ${APP_PUBLIC_URL}
             APP_NAME: ${APP_NAME}
             APP_DESC: ${APP_DESC}

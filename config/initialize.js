@@ -43,9 +43,6 @@ module.exports = (app, express, next) => {
     app.set('view engine', 'ejs');
 
     // setup session
-    if (process.env.NODE_ENV === 'production') {
-        app.set('trust proxy', 1); // trust first proxy
-    }
     let {
         DB_USERNAME,
         DB_PASSWORD,
@@ -59,7 +56,7 @@ module.exports = (app, express, next) => {
         session({
             secret: process.env.APP_SESSION_KEY,
             cookie: {
-                secure: process.env.NODE_ENV === 'production',
+                secure: process.env.APP_USE_HTTPS === '1',
             },
             resave: false,
             saveUninitialized: true,

@@ -106,6 +106,7 @@ export class SlotMachineComponent implements OnInit {
         }
     }
     restartGame(data: GameEnd): void {
+        this.rolling = false;
         if (this.credit !== 0) {
             this.credit = 0;
         }
