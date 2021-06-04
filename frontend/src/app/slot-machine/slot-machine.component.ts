@@ -63,11 +63,14 @@ export class SlotMachineComponent implements OnInit {
         this.rollingCheckAction(next);
     }
     cashout = () => {
-        api.post(this.http, '/game/cashout').subscribe(
-            (data: any) => {
-                this.restartGame(data);
-            }
-        );
+        let next = () => {
+            api.post(this.http, '/game/cashout').subscribe(
+                (data: any) => {
+                    this.restartGame(data);
+                }
+            );
+        };
+        this.rollingCheckAction(next);
     };
     getBlockImage(block: string): string {
         let formatFile = (name: string) => {
@@ -103,15 +106,12 @@ export class SlotMachineComponent implements OnInit {
         }
     }
     restartGame(data: GameEnd): void {
-        let next = () => {
-            if (this.credit !== 0) {
-                this.credit = 0;
-            }
-            if (confirm(data.message)) {
-                this.newGame();
-            }
-        };
-        this.rollingCheckAction(next);
+        if (this.credit !== 0) {
+            this.credit = 0;
+        }
+        if (confirm(data.message)) {
+            this.newGame();
+        }
     }
 }
 const defaultSlots: Array<string> = new Array<string>(
