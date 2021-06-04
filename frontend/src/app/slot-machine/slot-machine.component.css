@@ -33,18 +33,13 @@ section.slot-machine > table > tbody > tr {
     display: block;
 }
 section.slot-machine > table > tbody > tr > td {
-    width: calc(100% / 3);
+    width: calc(calc(100% / 3) - 90px);
     display: inline-block;
-}
-section.slot-machine > table > tbody > tr > td > figure {
-    margin: 25px;
-    padding: 20px;
-    width: calc(100% - 90px);
-    height: calc(100% - 50px);
     background: #fff;
-    display: block;
+    border: 25px solid #aaa;
+    padding: 20px;
 }
-section.slot-machine > table > tbody > tr > td > figure > img {
+section.slot-machine > table > tbody > tr > td > img {
     width: 100%;
 }
 @media only screen and (max-width: 850px) {
@@ -68,9 +63,9 @@ section.slot-machine > table > tbody > tr > td > figure > img {
     }
 }
 @media only screen and (max-width: 600px) {
-    section.slot-machine > table > tbody > tr > td > figure {
-        margin: 15px;
+    section.slot-machine > table > tbody > tr > td {
+        width: calc(calc(100% / 3) - 60px);
+        border: 15px solid #aaa;
         padding: 15px;
-        width: calc(100% - 60px);
     }
 }
