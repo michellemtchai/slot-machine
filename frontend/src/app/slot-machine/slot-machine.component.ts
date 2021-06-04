@@ -13,6 +13,7 @@ export class SlotMachineComponent implements OnInit {
     credit: number;
     blocks: Array<string>;
     rolling: boolean;
+
     constructor(private http: HttpClient) {
         this.blocks = defaultSlots;
         this.credit = 0;
@@ -29,8 +30,15 @@ export class SlotMachineComponent implements OnInit {
             }
         );
     }
-    play(): void {
+    rollingCheckAction(action: () => void) {
         if (!this.rolling) {
+            action();
+        } else {
+            alert('The slot machine is still rolling.');
+        }
+    }
+    play(): void {
+        let next = () => {
             let prev = this.blocks;
             if (this.credit > 0) {
                 this.blocks = new Array<string>('', '', '');
@@ -51,9 +59,8 @@ export class SlotMachineComponent implements OnInit {
                     this.restartGame(data);
                 }
             });
-        } else {
-            alert('The slot machine is still rolling.');
-        }
+        };
+        this.rollingCheckAction(next);
     }
     cashout = () => {
         api.post(this.http, '/game/cashout').subscribe(
@@ -96,12 +103,15 @@ export class SlotMachineComponent implements OnInit {
         }
     }
     restartGame(data: GameEnd): void {
-        if (this.credit !== 0) {
-            this.credit = 0;
-        }
-        if (confirm(data.message)) {
-            this.newGame();
-        }
+        let next = () => {
+            if (this.credit !== 0) {
+                this.credit = 0;
+            }
+            if (confirm(data.message)) {
+                this.newGame();
+            }
+        };
+        this.rollingCheckAction(next);
     }
 }
 const defaultSlots: Array<string> = new Array<string>(
