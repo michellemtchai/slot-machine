@@ -1,5 +1,9 @@
 FROM node:14-alpine
 
+#setup chromium
+RUN apk add chromium
+ENV CHROME_BIN=/usr/bin/chromium-browser
+
 # setup app directory
 WORKDIR /app
 

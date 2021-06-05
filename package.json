@@ -7,7 +7,8 @@
     "scripts": {
         "all": "./run.sh",
         "prod": "node server.js",
-        "start": "nodemon server.js"
+        "start": "nodemon server.js",
+        "test": "cd ./frontend && yarn test"
     },
     "dependencies": {
         "body-parser": "^1.19.0",

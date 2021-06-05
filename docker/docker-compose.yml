@@ -5,6 +5,7 @@ services:
         ports:
             - ${APP_PORT}:${APP_PORT}
             - ${FRONTEND_PORT}:${FRONTEND_PORT}
+            - ${TEST_PORT}:${TEST_PORT}
         environment:
             NODE_ENV: ${NODE_ENV}
             NODE_OPTIONS: ${NODE_OPTIONS}
@@ -19,6 +20,7 @@ services:
             APP_THEME_COLOR: ${APP_THEME_COLOR}
             APP_BACKGROUND_COLOR: ${APP_BACKGROUND_COLOR}
             FRONTEND_PORT: ${FRONTEND_PORT}
+            TEST_PORT: ${TEST_PORT}
             DB_USERNAME: ${DB_USERNAME}
             DB_PASSWORD: ${DB_PASSWORD}
             DB_HOST: ${DB_HOST}
