@@ -1,42 +1,194 @@
-const chai = require('chai');
+const GameController = require('../controllers/game.controller');
 const testAPI = require('../helpers/test.api');
-const assert = chai.assert;
 const apiRoute = {
     start: '/game/start',
     play: '/game/play',
     cashout: '/game/cashout',
 };
+const emptyFunction = () => {};
+const chai = require('chai');
+const assert = chai.assert;
+const should = chai.should();
 
 describe('Integration tests for game controller', () => {
-    describe(`GET ${apiRoute.start}`, () => {
-        it(`${apiRoute.start}`, (done) => {
-            testAPI.getRoute(
-                apiRoute.start,
-                done,
-                (err, res) => {
-                    //TODO
-                }
-            );
-        });
+    let user;
+    beforeEach((done) => {
+        user = testAPI.user();
+        done();
     });
-
-    describe(`POST ${apiRoute.play}`, () => {
-        it(`${apiRoute.play}`, (done) => {
-            testAPI.getRoute(apiRoute.play, done, (err, res) => {
-                //TODO
+    describe('Test routes', () => {
+        describe(`GET ${apiRoute.start}`, () => {
+            it('should return a object with credit=10', (done) => {
+                testAPI.getRoute(
+                    apiRoute.start,
+                    done,
+                    user,
+                    (err, res) => {
+                        res.should.have.status(200);
+                        res.body.should.be.a('object');
+                        res.body.should.have
+                            .property('credit')
+                            .eql(10);
+                    }
+                );
             });
         });
-    });
 
-    describe(`POST ${apiRoute.cashout}`, () => {
-        it(`${apiRoute.cashout}`, (done) => {
-            testAPI.getRoute(
-                apiRoute.cashout,
-                done,
-                (err, res) => {
-                    //TODO
-                }
-            );
+        describe(`POST ${apiRoute.play}`, () => {
+            describe('when game has not started', () => {
+                it('should return inSession=false with a message about having no credit', (done) => {
+                    testAPI.postRoute(
+                        apiRoute.play,
+                        done,
+                        user,
+                        (_, res) => {
+                            res.should.have.status(200);
+                            res.body.should.be.a('object');
+                            res.body.should.have
+                                .property('inSession')
+                                .eql(false);
+                            res.body.should.have
+                                .property('message')
+                                .eql(GameController.noCredit);
+                        }
+                    );
+                });
+            });
+            describe('when game has started', () => {
+                it('should return inSession=true with blocks values', (done) => {
+                    testAPI.getRoute(
+                        apiRoute.start,
+                        emptyFunction,
+                        user,
+                        () => {
+                            testAPI.postRoute(
+                                apiRoute.play,
+                                done,
+                                user,
+                                (_, res) => {
+                                    res.should.have.status(200);
+                                    res.body.should.be.a(
+                                        'object'
+                                    );
+                                    res.body.should.have
+                                        .property('inSession')
+                                        .eql(true);
+                                    res.body.should.have.property(
+                                        'blocks'
+                                    );
+                                    res.body.blocks.should.be.a(
+                                        'array'
+                                    );
+                                    res.body.should.have
+                                        .property('credit')
+                                        .be.a('number')
+                                        .not.eql(10);
+                                    res.body.blocks.length.should.eql(
+                                        3
+                                    );
+                                }
+                            );
+                        }
+                    );
+                });
+            });
+            describe('when game has ended', () => {
+                it('should return inSession=false with a message about having no credit', (done) => {
+                    testAPI.getRoute(
+                        apiRoute.start,
+                        emptyFunction,
+                        user,
+                        () => {
+                            testAPI.postRoute(
+                                apiRoute.cashout,
+                                emptyFunction,
+                                user,
+                                () => {
+                                    testAPI.postRoute(
+                                        apiRoute.play,
+                                        done,
+                                        user,
+                                        (_, res) => {
+                                            res.should.have.status(
+                                                200
+                                            );
+                                            res.body.should.be.a(
+                                                'object'
+                                            );
+                                            res.body.should.have
+                                                .property(
+                                                    'inSession'
+                                                )
+                                                .eql(false);
+                                            res.body.should.have
+                                                .property(
+                                                    'message'
+                                                )
+                                                .eql(
+                                                    GameController.noCredit
+                                                );
+                                        }
+                                    );
+                                }
+                            );
+                        }
+                    );
+                });
+            });
+        });
+
+        describe(`POST ${apiRoute.cashout}`, () => {
+            describe('when game has not started', () => {
+                it('should return inSession=false with a message about having no credit', (done) => {
+                    testAPI.postRoute(
+                        apiRoute.cashout,
+                        done,
+                        user,
+                        (_, res) => {
+                            res.should.have.status(200);
+                            res.body.should.be.a('object');
+                            res.body.should.have
+                                .property('inSession')
+                                .eql(false);
+                            res.body.should.have
+                                .property('message')
+                                .eql(GameController.noCredit);
+                        }
+                    );
+                });
+            });
+            describe('when game has started', () => {
+                it('should return inSession=false with a message about saved credit', (done) => {
+                    testAPI.getRoute(
+                        apiRoute.start,
+                        emptyFunction,
+                        user,
+                        () => {
+                            testAPI.postRoute(
+                                apiRoute.cashout,
+                                done,
+                                user,
+                                (_, res) => {
+                                    res.should.have.status(200);
+                                    res.body.should.be.a(
+                                        'object'
+                                    );
+                                    res.body.should.have
+                                        .property('inSession')
+                                        .eql(false);
+                                    res.body.should.have
+                                        .property('message')
+                                        .eql(
+                                            GameController.savedCredit(
+                                                10
+                                            )
+                                        );
+                                }
+                            );
+                        }
+                    );
+                });
+            });
         });
     });
 });
