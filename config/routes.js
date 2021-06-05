@@ -1,6 +1,6 @@
-const ApplicationController = require('../controllers/ApplicationController');
-const PwaController = require('../controllers/PwaController');
-const GameController = require('../controllers/GameController');
+const ApplicationController = require('../controllers/application.controller');
+const PwaController = require('../controllers/pwa.controller');
+const GameController = require('../controllers/game.controller');
 
 module.exports = (app) => {
     app.get('/', ApplicationController.index);

@@ -20,3 +20,4 @@ let server = app.listen(
         );
     }
 );
+module.exports = app; // for testing

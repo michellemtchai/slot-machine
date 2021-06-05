@@ -8,4 +8,4 @@ ENV CHROME_BIN=/usr/bin/chromium-browser
 WORKDIR /app
 
 # setup global packages
-RUN yarn global add @angular/cli nodemon
+RUN yarn global add @angular/cli nodemon mocha

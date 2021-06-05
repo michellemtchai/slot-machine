@@ -1,4 +1,4 @@
-const gameLogic = require('./gameLogic');
+const gameLogic = require('../helpers/game.logic');
 
 module.exports = {
     start: (req, res) => {

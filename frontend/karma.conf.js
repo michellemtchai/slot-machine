@@ -56,7 +56,7 @@ module.exports = function (config) {
             ],
         },
         reporters: ['progress', 'kjhtml'],
-        port: process.env.TEST_PORT,
+        port: process.env.FRONTEND_TEST_PORT,
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: true,
