@@ -1,4 +1,4 @@
-const GameController = require('../controllers/game.controller');
+const game = require('../helpers/game');
 const testAPI = require('../helpers/test.api');
 const apiRoute = {
     start: '/game/start',
@@ -49,7 +49,7 @@ describe('Integration tests for game controller', () => {
                                 .eql(false);
                             res.body.should.have
                                 .property('message')
-                                .eql(GameController.noCredit);
+                                .eql(game.noCredit);
                         }
                     );
                 });
@@ -97,7 +97,7 @@ describe('Integration tests for game controller', () => {
                                 .eql(false);
                             res.body.should.have
                                 .property('message')
-                                .eql(GameController.noCredit);
+                                .eql(game.noCredit);
                         }
                     );
                 });
@@ -119,7 +119,7 @@ describe('Integration tests for game controller', () => {
                                 .eql(false);
                             res.body.should.have
                                 .property('message')
-                                .eql(GameController.noCredit);
+                                .eql(game.noCredit);
                         }
                     );
                 });
@@ -140,11 +140,7 @@ describe('Integration tests for game controller', () => {
                                 .eql(false);
                             res.body.should.have
                                 .property('message')
-                                .eql(
-                                    GameController.savedCredit(
-                                        10
-                                    )
-                                );
+                                .eql(game.savedCredit(10));
                         }
                     );
                 });

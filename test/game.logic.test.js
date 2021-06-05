@@ -15,9 +15,4 @@ describe('Integration tests for game logic', () => {
             done();
         });
     });
-    describe(`clearSession`, () => {
-        it(`test1`, (done) => {
-            done();
-        });
-    });
 });

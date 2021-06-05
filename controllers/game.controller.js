@@ -1,3 +1,4 @@
+const game = require('../helpers/game');
 const gameLogic = require('../helpers/game.logic');
 
 module.exports = GameController = {
@@ -10,9 +11,9 @@ module.exports = GameController = {
     play: (req, res) => {
         let credit = req.session.credit;
         if (!credit || credit === 0) {
-            gameLogic.clearSession(req, res, {
+            game.clearSession(req, res, {
                 inSession: false,
-                message: GameController.noCredit,
+                message: game.noCredit,
             });
         } else {
             let [won, rollResult] = gameLogic.gameResult(credit);
@@ -32,19 +33,15 @@ module.exports = GameController = {
     cashout: (req, res) => {
         let credit = req.session.credit;
         if (credit) {
-            gameLogic.clearSession(req, res, {
+            game.clearSession(req, res, {
                 inSession: false,
-                message: GameController.savedCredit(credit),
+                message: game.savedCredit(credit),
             });
         } else {
             res.json({
                 inSession: false,
-                message: GameController.noCredit,
+                message: game.noCredit,
             });
         }
     },
-    noCredit:
-        'You have no more credit. Do you want to start a new game?',
-    savedCredit: (credit) =>
-        `You saved ${credit} credits to your account. Do you want to start a new game?`,
 };
