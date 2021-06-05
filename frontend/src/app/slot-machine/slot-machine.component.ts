@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import {
     defaultSlots,
     busyCheckAction,
-    formatFile,
+    getBlockImage,
 } from '../../helpers/slot-machine';
 import { RollResult, GameEnd } from '../../helpers/interfaces';
 import { api } from '../../helpers/api';
@@ -19,12 +19,14 @@ export class SlotMachineComponent implements OnInit {
     blocks: Array<string>;
     rolling: boolean;
     cashingOut: boolean;
+    getBlockImage: (block: string) => string;
 
     constructor(private http: HttpClient) {
         this.blocks = defaultSlots;
         this.credit = 0;
         this.rolling = false;
         this.cashingOut = false;
+        this.getBlockImage = getBlockImage;
     }
     ngOnInit(): void {
         this.newGame();
@@ -74,20 +76,6 @@ export class SlotMachineComponent implements OnInit {
         };
         busyCheckAction(this.rolling, this.cashingOut, next);
     };
-    getBlockImage(block: string): string {
-        switch (block) {
-            case 'C':
-                return formatFile('cherries');
-            case 'L':
-                return formatFile('lemon');
-            case 'O':
-                return formatFile('orange');
-            case 'W':
-                return formatFile('watermelon');
-            default:
-                return formatFile('spinner');
-        }
-    }
     updateGameState(data: RollResult, index: number): void {
         if (index < this.blocks.length) {
             setTimeout(() => {

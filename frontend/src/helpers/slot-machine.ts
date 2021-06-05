@@ -17,7 +17,21 @@ export const busyCheckAction = (
         action();
     }
 };
-export const formatFile = (name: string) => {
+export const getBlockImage = (block: string): string => {
+    switch (block) {
+        case 'C':
+            return formatFile('cherries');
+        case 'L':
+            return formatFile('lemon');
+        case 'O':
+            return formatFile('orange');
+        case 'W':
+            return formatFile('watermelon');
+        default:
+            return formatFile('spinner');
+    }
+};
+const formatFile = (name: string) => {
     let prefix = environment.production
         ? environment.APP_PUBLIC_URL
         : '';
