@@ -7,7 +7,6 @@ const apiRoute = {
 };
 const emptyFunction = () => {};
 const chai = require('chai');
-const assert = chai.assert;
 const should = chai.should();
 
 describe('Integration tests for game controller', () => {
@@ -49,7 +48,7 @@ describe('Integration tests for game controller', () => {
                                 .eql(false);
                             res.body.should.have
                                 .property('message')
-                                .eql(game.noCredit);
+                                .eql(game.NO_CREDIT);
                         }
                     );
                 });
@@ -97,7 +96,7 @@ describe('Integration tests for game controller', () => {
                                 .eql(false);
                             res.body.should.have
                                 .property('message')
-                                .eql(game.noCredit);
+                                .eql(game.NO_CREDIT);
                         }
                     );
                 });
@@ -119,7 +118,7 @@ describe('Integration tests for game controller', () => {
                                 .eql(false);
                             res.body.should.have
                                 .property('message')
-                                .eql(game.noCredit);
+                                .eql(game.NO_CREDIT);
                         }
                     );
                 });

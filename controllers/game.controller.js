@@ -13,19 +13,19 @@ module.exports = GameController = {
         if (!credit || credit === 0) {
             game.clearSession(req, res, {
                 inSession: false,
-                message: game.noCredit,
+                message: game.NO_CREDIT,
             });
         } else {
-            let [won, rollResult] = gameLogic.gameResult(credit);
+            let { won, result } = gameLogic.gameResult(credit);
             credit = gameLogic.calculateCredit(
                 credit,
-                rollResult[0],
+                result[0],
                 won
             );
             req.session.credit = credit;
             res.json({
                 inSession: true,
-                blocks: rollResult,
+                blocks: result,
                 credit: credit,
             });
         }
@@ -40,7 +40,7 @@ module.exports = GameController = {
         } else {
             res.json({
                 inSession: false,
-                message: game.noCredit,
+                message: game.NO_CREDIT,
             });
         }
     },

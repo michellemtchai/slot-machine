@@ -1,63 +1,61 @@
-module.exports = {
+const game = require('./game');
+
+module.exports = gameLogic = {
+    getRandomInt: (max) => {
+        return Math.floor(Math.random() * max);
+    },
+    hasPercentChance: (percent) => {
+        let randVal = gameLogic.getRandomInt(100);
+        return randVal < percent;
+    },
+    rollOnce: () => {
+        let index = gameLogic.getRandomInt(game.SYMBOLS.length);
+        return game.SYMBOLS[index];
+    },
+    rollSlots: () => {
+        let result = [];
+        let firstSymbol = null;
+        let won = true;
+        for (let i = 0; i < game.NUM_ROLLS; i++) {
+            let value = gameLogic.rollOnce();
+            result.push(value);
+            if (i === 0) {
+                firstSymbol = value;
+            } else {
+                if (value !== firstSymbol) {
+                    won = false;
+                }
+            }
+        }
+        return {
+            won,
+            result,
+        };
+    },
+    reroll: (rollResult, percent) => {
+        let { won } = rollResult;
+        if (won) {
+            if (gameLogic.hasPercentChance(percent)) {
+                return gameLogic.rollSlots();
+            } else {
+                return rollResult;
+            }
+        } else {
+            return rollResult;
+        }
+    },
     gameResult: (credit) => {
-        let rollResult = rollSlots();
+        let rollResult = gameLogic.rollSlots();
         if (credit < 40) {
             return rollResult;
         } else if (credit >= 40 && credit <= 60) {
-            return reroll(rollResult, 40);
+            return gameLogic.reroll(rollResult, 40);
         } else {
-            return reroll(rollResult, 60);
+            return gameLogic.reroll(rollResult, 60);
         }
     },
     calculateCredit: (credit, value, won) => {
-        let creditDiff = won ? CREDIT_MAPPING[value] : -1;
+        let creditDiff = won ? game.CREDIT_MAPPING[value] : -1;
         return credit + creditDiff;
     },
-};
-
-// helper functions
-const NUM_ROLLS = 3;
-const CREDIT_MAPPING = {
-    C: 10,
-    L: 20,
-    O: 30,
-    W: 40,
-};
-const rollSlots = () => {
-    let symbols = Object.keys(CREDIT_MAPPING);
-    let rollOnce = () => {
-        let index = getRandomInt(symbols.length);
-        return symbols[index];
-    };
-    let result = [];
-    let firstSymbol = '';
-    let won = true;
-    for (let i = 0; i < NUM_ROLLS; i++) {
-        let value = rollOnce();
-        result.push(value);
-        if (i === 0) {
-            firstSymbol = value;
-        } else {
-            if (value !== firstSymbol) {
-                won = false;
-            }
-        }
-    }
-    return [won, result];
-};
-const reroll = (rollResult, rerollProb) => {
-    let [won, _] = rollResult;
-    if (won) {
-        let rerollRand = getRandomInt(100);
-        if (rerollRand < rerollProb) {
-            return rollSlots();
-        } else {
-            return rollResult;
-        }
-    } else {
-        return rollResult;
-    }
-};
-const getRandomInt = (max) => {
-    return Math.floor(Math.random() * max);
 };
