@@ -1,12 +1,12 @@
 const app = require('../server');
+const emptyFunction = () => {};
+
 const chai = require('chai');
-const request = require('supertest');
+const assert = chai.assert;
 const chaiHttp = require('chai-http');
 chai.use(chaiHttp);
-const assert = chai.assert;
-const http = require('http');
 
-module.exports = testApi = {
+module.exports = testAPI = {
     user: () => {
         return chai.request.agent(app);
     },
@@ -23,5 +23,56 @@ module.exports = testApi = {
                 action(err, res);
                 done();
             });
+    },
+    gameStartedAction: (
+        apiRoute,
+        user,
+        method,
+        route,
+        done,
+        action
+    ) => {
+        testAPI.getRoute(
+            apiRoute.start,
+            emptyFunction,
+            user,
+            () => {
+                testAPI[method](
+                    apiRoute[route],
+                    done,
+                    user,
+                    action
+                );
+            }
+        );
+    },
+    gameEndedAction: (
+        apiRoute,
+        user,
+        method,
+        route,
+        done,
+        action
+    ) => {
+        testAPI.getRoute(
+            apiRoute.start,
+            emptyFunction,
+            user,
+            () => {
+                testAPI.postRoute(
+                    apiRoute.cashout,
+                    emptyFunction,
+                    user,
+                    () => {
+                        testAPI[method](
+                            apiRoute[route],
+                            done,
+                            user,
+                            action
+                        );
+                    }
+                );
+            }
+        );
     },
 };
