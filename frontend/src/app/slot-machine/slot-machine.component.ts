@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { RollResult, GameEnd } from '../interfaces';
-import { api } from '../api';
+
+import {
+    defaultSlots,
+    busyCheckAction,
+    formatFile,
+} from '../../helpers/slot-machine';
+import { RollResult, GameEnd } from '../../helpers/interfaces';
+import { api } from '../../helpers/api';
 
 @Component({
     selector: 'app-slot-machine',
@@ -13,11 +18,13 @@ export class SlotMachineComponent implements OnInit {
     credit: number;
     blocks: Array<string>;
     rolling: boolean;
+    cashingOut: boolean;
 
     constructor(private http: HttpClient) {
         this.blocks = defaultSlots;
         this.credit = 0;
         this.rolling = false;
+        this.cashingOut = false;
     }
     ngOnInit(): void {
         this.newGame();
@@ -29,13 +36,6 @@ export class SlotMachineComponent implements OnInit {
                 this.blocks = defaultSlots;
             }
         );
-    }
-    rollingCheckAction(action: () => void) {
-        if (!this.rolling) {
-            action();
-        } else {
-            alert('The slot machine is still rolling.');
-        }
     }
     play(): void {
         let next = () => {
@@ -60,25 +60,21 @@ export class SlotMachineComponent implements OnInit {
                 }
             });
         };
-        this.rollingCheckAction(next);
+        busyCheckAction(this.rolling, this.cashingOut, next);
     }
     cashout = () => {
         let next = () => {
+            this.cashingOut = true;
             api.post(this.http, '/game/cashout').subscribe(
                 (data: any) => {
+                    this.cashingOut = false;
                     this.restartGame(data);
                 }
             );
         };
-        this.rollingCheckAction(next);
+        busyCheckAction(this.rolling, this.cashingOut, next);
     };
     getBlockImage(block: string): string {
-        let formatFile = (name: string) => {
-            let prefix = environment.production
-                ? environment.APP_PUBLIC_URL
-                : '';
-            return `${prefix}/assets/${name}.svg`;
-        };
         switch (block) {
             case 'C':
                 return formatFile('cherries');
@@ -115,8 +111,3 @@ export class SlotMachineComponent implements OnInit {
         }
     }
 }
-const defaultSlots: Array<string> = new Array<string>(
-    'C',
-    'L',
-    'O'
-);

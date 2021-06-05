@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Dimension, Coordinate } from '../interfaces';
-import { cashout, coord } from './cashout';
+import { Dimension, Coordinate } from '../../helpers/interfaces';
+import { cashout, coord } from '../../helpers/cashout';
 
 @Component({
     selector: 'app-cashout',

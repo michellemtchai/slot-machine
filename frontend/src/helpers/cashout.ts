@@ -1,4 +1,4 @@
-import { Dimension, Coordinate } from '../interfaces';
+import { Dimension, Coordinate } from './interfaces';
 
 export const coord = (x: number, y: number): Coordinate => {
     return {
