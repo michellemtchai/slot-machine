@@ -37,3 +37,9 @@ You can access the app on your browser via the following url:
 ```
 http://localhost:3000
 ```
+
+### Test Cases
+To run test cases, run the following command:
+```
+docker-compose run app yarn test
+```
