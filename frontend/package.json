@@ -5,7 +5,7 @@
         "config": "node ./set-env.js",
         "start": "ng serve --poll=2000 --port $FRONTEND_PORT --host $APP_HOST --proxy-config proxy.conf.json",
         "build": "ng build",
-        "test": "ng test"
+        "test": "ng test --source-map=false --no-watch"
     },
     "private": true,
     "dependencies": {
@@ -36,6 +36,6 @@
         "karma-jasmine-html-reporter": "^1.5.0",
         "karma-parallel": "^0.3.1",
         "typescript": "~4.2.3",
-        "ng-bullet": "^1.0.3"
+        "ng-cache-testing-module": "^1.1.3"
     }
 }

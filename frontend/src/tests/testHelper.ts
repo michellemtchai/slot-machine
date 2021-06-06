@@ -4,7 +4,7 @@ import {
 } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { configureTestSuite } from 'ng-bullet';
+import { cacheTestingModule } from 'ng-cache-testing-module';
 
 interface ThisContext {
     component: any;
@@ -17,6 +17,7 @@ export const runComponentTests = (
     runTests: () => void
 ) => {
     describe(componentName, function () {
+        cacheTestingModule();
         beforeEach(async function (this: any) {
             await TestBed.configureTestingModule({
                 imports: [HttpClientTestingModule],
