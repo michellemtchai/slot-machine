@@ -16,7 +16,7 @@ export const runComponentTests = (
     componentClass: any,
     runTests: () => void
 ) => {
-    describe(componentName, function () {
+    describe(componentName, () => {
         cacheTestingModule();
         beforeEach(async function (this: any) {
             await TestBed.configureTestingModule({
@@ -34,7 +34,7 @@ export const runComponentTests = (
             expect(this.component).toBeTruthy();
         });
 
-        describe('should test whether', function () {
+        describe('should test whether', () => {
             runTests();
         });
         afterAll(() => {

@@ -8,13 +8,17 @@ import { Injectable } from '@angular/core';
 import { Observable, ObservableInput, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-export const api = {
+export class ApiService {
+    http: HttpClient;
+    constructor(http: HttpClient) {
+        this.http = http;
+    }
+
     get(
-        http: HttpClient,
         route: string,
         errorFn: (err: string) => void = alert
     ): Observable<any> {
-        return http
+        return this.http
             .get<any>(
                 environment.API_BASE_URL + route,
                 httpOptions
@@ -24,14 +28,14 @@ export const api = {
                     handleError(e, errorFn)
                 )
             );
-    },
+    }
+
     post(
-        http: HttpClient,
         route: string,
         errorFn: (err: string) => void = alert,
         params: any = {}
     ): Observable<any> {
-        return http
+        return this.http
             .post<any>(
                 environment.API_BASE_URL + route,
                 params,
@@ -42,8 +46,8 @@ export const api = {
                     handleError(e, errorFn)
                 )
             );
-    },
-};
+    }
+}
 const httpOptions = {
     headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -57,7 +61,7 @@ const handleError = (
 ): ObservableInput<any> => {
     let errorMessage: string;
     if (error.status === 0) {
-        errorMessage = `Error: ${error.error}`;
+        errorMessage = `Error: ${error.message}`;
     } else {
         errorMessage = `Error Code: ${error.status}\nMessage: ${error.error.message}`;
     }

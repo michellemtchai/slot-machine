@@ -6,7 +6,7 @@ import {
     busyCheckAction,
     getBlockImage,
 } from '../helpers/slot-machine';
-import { api } from '../helpers/api';
+import { ApiService } from '../helpers/api-service';
 import { RollResult, GameEnd } from '../helpers/interfaces';
 import { environment } from '../environments/environment';
 
@@ -21,24 +21,24 @@ export class AppComponent implements OnInit {
     blocks: Array<string>;
     rolling: boolean;
     cashingOut: boolean;
+    api: ApiService;
 
     constructor(private http: HttpClient) {
         this.blocks = defaultSlots;
         this.credit = 0;
         this.rolling = false;
         this.cashingOut = false;
+        this.api = new ApiService(http);
     }
 
     ngOnInit(): void {
         this.newGame();
     }
     newGame(): void {
-        api.get(this.http, '/game/start').subscribe(
-            (data: any) => {
-                this.credit = data.credit;
-                this.blocks = defaultSlots;
-            }
-        );
+        this.api.get('/game/start').subscribe((data: any) => {
+            this.credit = data.credit;
+            this.blocks = defaultSlots;
+        });
     }
     play = (): void => {
         let next = () => {
@@ -47,33 +47,31 @@ export class AppComponent implements OnInit {
                 this.blocks = new Array<string>('', '', '');
                 this.rolling = true;
             }
-            api.post(
-                this.http,
-                '/game/play',
-                (error: string) => {
+            this.api
+                .post('/game/play', (error: string) => {
                     this.blocks = prev;
                     this.rolling = false;
                     alert(error);
-                }
-            ).subscribe((data: any) => {
-                if (data.inSession) {
-                    this.updateGameState(data, -1);
-                } else {
-                    this.restartGame(data);
-                }
-            });
+                })
+                .subscribe((data: any) => {
+                    if (data.inSession) {
+                        this.updateGameState(data, -1);
+                    } else {
+                        this.restartGame(data);
+                    }
+                });
         };
         busyCheckAction(this.rolling, this.cashingOut, next);
     };
     cashout = () => {
         let next = () => {
             this.cashingOut = true;
-            api.post(this.http, '/game/cashout').subscribe(
-                (data: any) => {
+            this.api
+                .post('/game/cashout')
+                .subscribe((data: any) => {
                     this.cashingOut = false;
                     this.restartGame(data);
-                }
-            );
+                });
         };
         busyCheckAction(this.rolling, this.cashingOut, next);
     };

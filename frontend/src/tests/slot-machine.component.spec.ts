@@ -1,8 +1,4 @@
-import {
-    ComponentFixture,
-    TestBed,
-} from '@angular/core/testing';
-import { runComponentTests } from './testHelper';
+import { runComponentTests } from '../helpers/test';
 import { SlotMachineComponent } from '../app/slot-machine/slot-machine.component';
 
 runComponentTests(

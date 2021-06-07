@@ -14,6 +14,9 @@ module.exports = function (config) {
         ],
         client: {
             clearContext: false, // leave Jasmine Spec Runner output visible in browser
+            jasmine: {
+                failSpecWithNoExpectations: true,
+            },
         },
         coverageReporter: {
             dir: require('path').join(__dirname, '/coverage/'),
@@ -24,7 +27,12 @@ module.exports = function (config) {
         customLaunchers: {
             ChromeHeadlessDocker: {
                 base: 'ChromeHeadless',
-                flags: ['--no-sandbox'],
+                flags: [
+                    '--no-sandbox',
+                    '--disable-gpu',
+                    `--remote-debugging-port=${process.env.TEST_PORT}`,
+                ],
+                debug: true,
             },
         },
         reporters: ['mocha'],
@@ -34,10 +42,9 @@ module.exports = function (config) {
         port: process.env.TEST_PORT,
         colors: true,
         logLevel: config.LOG_INFO,
-        autoWatch: false,
+        autoWatch: true,
         browsers: ['ChromeHeadlessDocker'],
         singleRun: true,
-        restartOnFileChange: false,
         captureTimeout: 600000,
         browserNoActivityTimeout: 120000,
         browserDisconnectTolerance: 2,
