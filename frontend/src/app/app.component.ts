@@ -5,6 +5,7 @@ import {
     defaultSlots,
     busyCheckAction,
     getBlockImage,
+    ROLL_INTERVAL,
 } from '../helpers/slot-machine';
 import { ApiService } from '../helpers/api-service';
 import { RollResult, GameEnd } from '../helpers/interfaces';
@@ -35,7 +36,7 @@ export class AppComponent implements OnInit {
         this.newGame();
     }
     newGame(): void {
-        this.api.get('/game/start').subscribe((data: any) => {
+        this.api.get('/game/start', (data: any) => {
             this.credit = data.credit;
             this.blocks = defaultSlots;
         });
@@ -47,31 +48,31 @@ export class AppComponent implements OnInit {
                 this.blocks = new Array<string>('', '', '');
                 this.rolling = true;
             }
-            this.api
-                .post('/game/play', (error: string) => {
-                    this.blocks = prev;
-                    this.rolling = false;
-                    alert(error);
-                })
-                .subscribe((data: any) => {
+            this.api.post(
+                '/game/play',
+                (data: any) => {
                     if (data.inSession) {
                         this.updateGameState(data, -1);
                     } else {
                         this.restartGame(data);
                     }
-                });
+                },
+                (error: string) => {
+                    this.blocks = prev;
+                    this.rolling = false;
+                    alert(error);
+                }
+            );
         };
         busyCheckAction(this.rolling, this.cashingOut, next);
     };
     cashout = () => {
         let next = () => {
             this.cashingOut = true;
-            this.api
-                .post('/game/cashout')
-                .subscribe((data: any) => {
-                    this.cashingOut = false;
-                    this.restartGame(data);
-                });
+            this.api.post('/game/cashout', (data: any) => {
+                this.cashingOut = false;
+                this.restartGame(data);
+            });
         };
         busyCheckAction(this.rolling, this.cashingOut, next);
     };
@@ -82,7 +83,7 @@ export class AppComponent implements OnInit {
                     this.blocks[index] = data.blocks[index];
                 }
                 this.updateGameState(data, index + 1);
-            }, 1000);
+            }, ROLL_INTERVAL);
         } else {
             this.credit = data.credit;
             this.rolling = false;

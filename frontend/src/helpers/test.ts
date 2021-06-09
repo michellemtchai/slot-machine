@@ -38,6 +38,7 @@ export const runComponentTests = (
             runTests();
         });
         afterAll(() => {
+            TestBed.resetTestingModule();
             cleanStylesFromDOM();
         });
     });

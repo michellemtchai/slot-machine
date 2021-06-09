@@ -16,36 +16,32 @@ export class ApiService {
 
     get(
         route: string,
+        action: (data: any) => void,
         errorFn: (err: string) => void = alert
-    ): Observable<any> {
-        return this.http
+    ): void {
+        this.http
             .get<any>(
                 environment.API_BASE_URL + route,
                 httpOptions
             )
-            .pipe(
-                catchError((e: HttpErrorResponse) =>
-                    handleError(e, errorFn)
-                )
-            );
+            .pipe(catchError(handleError))
+            .subscribe(action, errorFn);
     }
 
     post(
         route: string,
+        action: (data: any) => void,
         errorFn: (err: string) => void = alert,
         params: any = {}
-    ): Observable<any> {
-        return this.http
+    ): void {
+        this.http
             .post<any>(
                 environment.API_BASE_URL + route,
                 params,
                 httpOptions
             )
-            .pipe(
-                catchError((e: HttpErrorResponse) =>
-                    handleError(e, errorFn)
-                )
-            );
+            .pipe(catchError(handleError))
+            .subscribe(action, errorFn);
     }
 }
 const httpOptions = {
@@ -56,8 +52,7 @@ const httpOptions = {
     withCredentials: true,
 };
 const handleError = (
-    error: HttpErrorResponse,
-    errorFn: (err: string) => void
+    error: HttpErrorResponse
 ): ObservableInput<any> => {
     let errorMessage: string;
     if (error.status === 0) {
@@ -65,6 +60,5 @@ const handleError = (
     } else {
         errorMessage = `Error Code: ${error.status}\nMessage: ${error.error.message}`;
     }
-    errorFn(errorMessage);
     return throwError(errorMessage);
 };

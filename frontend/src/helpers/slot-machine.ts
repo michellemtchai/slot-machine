@@ -1,4 +1,8 @@
 import { environment } from '../environments/environment';
+export const ROLL_INTERVAL = 1000;
+export const MACHINE_ROLLING =
+    'The slot machine is still rolling.';
+export const CASHING_OUT = 'Cashing out is still in progress.';
 export const defaultSlots: Array<string> = new Array<string>(
     'C',
     'L',
@@ -10,9 +14,9 @@ export const busyCheckAction = (
     action: () => void
 ) => {
     if (rolling) {
-        alert('The slot machine is still rolling.');
+        alert(MACHINE_ROLLING);
     } else if (cashingOut) {
-        alert('Cashing out is still in progress.');
+        alert(CASHING_OUT);
     } else {
         action();
     }
