@@ -39,7 +39,13 @@ http://localhost:3000
 ```
 
 ### Test Cases
-To run test cases, run the following command:
+To run backend test cases, run the following command:
 ```
 docker-compose run app yarn test
 ```
+
+To run frontend test cases, run the following command:
+```
+docker-compose run app yarn frontend-test
+```
+**Note:** The frontend build process is very slow, so you might have to wait for quite some time.
