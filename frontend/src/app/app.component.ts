@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { environment } from '../environments/environment';
+import { ApiService } from '../helpers/api-service';
+import { RollResult, GameEnd } from '../helpers/interfaces';
 import {
     defaultSlots,
     busyCheckAction,
     getBlockImage,
     ROLL_INTERVAL,
 } from '../helpers/slot-machine';
-import { ApiService } from '../helpers/api-service';
-import { RollResult, GameEnd } from '../helpers/interfaces';
-import { environment } from '../environments/environment';
 
 @Component({
     selector: 'app-root',
