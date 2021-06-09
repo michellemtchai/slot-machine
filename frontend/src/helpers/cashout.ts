@@ -7,14 +7,8 @@ export const cashout = {
         screen: Dimension,
         distance: number
     ) => {
-        let moves = [
-            coord(1, 0),
-            coord(0, 1),
-            coord(-1, 0),
-            coord(0, -1),
-        ];
         let validMoves = new Array<Coordinate>();
-        moves.forEach((move) => {
+        allMoves.forEach((move) => {
             let newPos = coord(
                 position.x + move.x * distance,
                 position.y + move.y * distance
@@ -61,3 +55,9 @@ export const coord = (x: number, y: number): Coordinate => {
         y: y,
     };
 };
+const allMoves = [
+    coord(1, 0),
+    coord(0, 1),
+    coord(-1, 0),
+    coord(0, -1),
+];
