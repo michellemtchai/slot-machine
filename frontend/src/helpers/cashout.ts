@@ -38,8 +38,7 @@ export const cashout = {
     },
     getRandomNewCoord: (moves: Array<Coordinate>) => {
         let index = cashout.getRandomInt(moves.length);
-        let move = moves[index];
-        return coord(move.x, move.y);
+        return moves[index];
     },
     hasPercentChance: (percent: number) => {
         let randVal = cashout.getRandomInt(100);
