@@ -43,6 +43,8 @@ To run backend test cases, run the following command:
 ```
 docker-compose run app yarn test
 ```
+**Note:** Make sure sure you're not running `docker-compose up` at the same time. There will be a port conflict if you do.
+
 
 To run frontend test cases, run the following command:
 ```
