@@ -1,6 +1,6 @@
 # README
 ## Objective
-You can find the objective of this app [Here](/Objective.md).
+You can find the objective of this app [here](/Objective.md).
 
 ## Requirement
 You will need `Docker` to run this app.
