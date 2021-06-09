@@ -6,8 +6,7 @@ module.exports = testLogic = {
     percentTrue: (percent, iterations, action) => {
         let sum = 0;
         for (let i = 0; i < iterations; i++) {
-            let res = action(percent);
-            if (res) {
+            if (action(percent)) {
                 sum += 1;
             }
         }

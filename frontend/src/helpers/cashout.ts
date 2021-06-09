@@ -55,7 +55,16 @@ export const coord = (x: number, y: number): Coordinate => {
         y: y,
     };
 };
-const allMoves = [
+export const dimensions = (
+    width: number,
+    height: number
+): Dimension => {
+    return {
+        width: width,
+        height: height,
+    };
+};
+export const allMoves = [
     coord(1, 0),
     coord(0, 1),
     coord(-1, 0),

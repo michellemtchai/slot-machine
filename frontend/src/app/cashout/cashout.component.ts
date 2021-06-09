@@ -1,6 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { Dimension, Coordinate } from '../../helpers/interfaces';
-import { cashout, coord } from '../../helpers/cashout';
+import {
+    cashout,
+    coord,
+    dimensions,
+} from '../../helpers/cashout';
 
 @Component({
     selector: 'app-cashout',
@@ -28,10 +32,7 @@ export class CashoutComponent {
         this.cashoutAction = () => {};
     }
     getDimensions() {
-        return {
-            width: window.innerWidth,
-            height: window.innerHeight,
-        };
+        return dimensions(window.innerWidth, window.innerHeight);
     }
     onResize(event: any) {
         this.position = coord(0, 0);
