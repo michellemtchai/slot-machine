@@ -6,5 +6,8 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./credit-status.component.css'],
 })
 export class CreditStatusComponent {
-    @Input() credit?: number;
+    @Input() credit: number;
+    constructor() {
+        this.credit = 0;
+    }
 }

@@ -12,7 +12,7 @@ export class SlotMachineComponent {
     @Input() play: () => void;
 
     constructor() {
-        this.blocks = new Array<string>();
+        this.blocks = new Array<string>('', '', '');
         this.play = () => {};
     }
 }

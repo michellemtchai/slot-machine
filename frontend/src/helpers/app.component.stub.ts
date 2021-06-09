@@ -56,11 +56,3 @@ export const setupPostRouteStub = (
         }
     );
 };
-// export const setTimeoutStub = (spec: any) => {
-//     spyOn(window, 'setTimeout').and.callFake((action, time) => {
-//         spec.changes.push(spec.blocks);
-//         spec.times.push(time);
-//         spec.numCalled++;
-//         action();
-//     });
-// };

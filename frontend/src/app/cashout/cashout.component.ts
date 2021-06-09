@@ -1,11 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Dimension, Coordinate } from '../../helpers/interfaces';
-import {
-    availableMoves,
-    getRandomNewCoord,
-    hasPercentChance,
-    coord,
-} from '../../helpers/cashout';
+import { cashout, coord } from '../../helpers/cashout';
 
 @Component({
     selector: 'app-cashout',
@@ -48,16 +43,16 @@ export class CashoutComponent {
         }
     }
     moveButton() {
-        if (hasPercentChance(50)) {
-            let moves = availableMoves(
+        if (cashout.hasPercentChance(50)) {
+            let moves = cashout.availableMoves(
                 this.button,
                 this.position,
                 this.screen,
                 300
             );
-            this.position = getRandomNewCoord(moves);
+            this.position = cashout.getRandomNewCoord(moves);
         } else {
-            if (hasPercentChance(40)) {
+            if (cashout.hasPercentChance(40)) {
                 this.canCashOut = false;
             }
         }
