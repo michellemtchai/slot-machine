@@ -1,7 +1,7 @@
 #! /bin/sh
 
 # install packages
-yarn install --production
+yarn add @angular/cli
 
 # Build Angular app
 cd ./frontend
