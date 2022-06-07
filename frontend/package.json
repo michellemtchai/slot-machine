@@ -4,7 +4,7 @@
     "scripts": {
         "config": "node ./set-env.js",
         "start": "ng serve --poll=2000 --port $FRONTEND_PORT --host $APP_HOST --proxy-config proxy.conf.json",
-        "build": "ng build",
+        "build": "ng build --aot --prod",
         "test": "ng test --source-map=false --no-progress"
     },
     "private": true,
