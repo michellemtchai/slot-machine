@@ -13,6 +13,3 @@ cd ..
 # copy angular build files
 mv ./frontend/build/* ./public
 node ./docker/build-frontend.js
-
-# run app
-APP_PORT="$PORT" yarn prod
