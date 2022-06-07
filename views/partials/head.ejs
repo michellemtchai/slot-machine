@@ -4,12 +4,13 @@
 <meta name="theme-color" content="<%= process.env.APP_THEME_COLOR %>" />
 <meta name="description" content="<%= process.env.APP_DESC %>" />
 
+<% let rootURL = process.env.NODE_ENV === 'production' ? '': `${process.env.APP_PUBLIC_URL}/`%>
 <% for(let i = 0; i < icons.length; i++){ %>
     <link rel="<%= icons[i].rel %>" href="<%= icons[i].src %>" />
 <% } %>
-<link rel="manifest" href="<%= process.env.APP_PUBLIC_URL %>/manifest.json" />
+<link rel="manifest" href="<%= rootURL %>manifest.json" />
 
 <title><%= process.env.APP_NAME %></title>
 <% for(let i = 0; i < assets.css.length; i++){ %>
-    <link href="<%= process.env.APP_PUBLIC_URL %>/<%= assets.css[i] %>" rel="stylesheet" />
+    <link href="<%= rootURL %><%= assets.css[i] %>" rel="stylesheet" />
 <% } %>

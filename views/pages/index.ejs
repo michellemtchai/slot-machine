@@ -16,7 +16,7 @@
             </p>
         <% } else { %>
             <% for(let i = 0; i < assets.js.length; i++){ %>
-                <script src="<%= process.env.APP_PUBLIC_URL %>/<%= assets.js[i] %>" defer></script>
+                <script src="<%= assets.js[i] %>" defer></script>
             <% } %>
         <% } %>
     </body>
