@@ -7,6 +7,7 @@
     "scripts": {
         "all": "./run.sh",
         "prod": "node server.js",
+        "postinstall": "chmod u+x ./docker/heroku.sh && ./docker/heroku.sh",
         "start": "nodemon server.js",
         "test": "mocha --exit",
         "frontend-test": "cd ./frontend && yarn test"
