@@ -11,5 +11,5 @@ yarn build
 cd ..
 
 # copy angular build files
-mv ./frontend/build/* ./public
+mv -v ./frontend/build/* ./public
 node ./docker/build-frontend.js
