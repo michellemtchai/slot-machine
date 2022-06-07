@@ -7,7 +7,7 @@ services:
         command: yarn all
         volumes:
             - ..:/app
-        port:
+        ports:
             - ${FRONTEND_PORT}:${FRONTEND_PORT}
             - ${TEST_PORT}:${TEST_PORT}
         environment:
