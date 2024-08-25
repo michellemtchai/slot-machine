@@ -1,12 +1,13 @@
 // load .env variables
-require('dotenv').config({ path: '/app/.env' });
+require('dotenv').config();
 
 const path = require('path');
 const fs = require('fs');
 const ejs = require('ejs');
 const manifestData = require('../assets/manifest');
 
-const cssRegex = /(<link\s+href=\"\s+rel=\"stylesheet\")([a-zA-Z\/\.0-9]+)(\">)/g;
+const cssRegex =
+    /(<link\s+href=\"\s+rel=\"stylesheet\")([a-zA-Z\/\.0-9]+)(\">)/g;
 const jsRegex = /(<script\s+src=\")([\/a-zA-Z.0-9]+)(\" defer><\/script>)/g;
 
 const getFileList = (data, regex) => {
@@ -18,17 +19,13 @@ const getFileList = (data, regex) => {
     return fileList;
 };
 const readFile = (file, action) => {
-    fs.readFile(
-        path.resolve(__dirname, file),
-        'utf8',
-        (err, data) => {
-            if (err) {
-                console.log(err.message);
-            } else {
-                action(data);
-            }
+    fs.readFile(path.resolve(__dirname, file), 'utf8', (err, data) => {
+        if (err) {
+            console.log(err.message);
+        } else {
+            action(data);
         }
-    );
+    });
 };
 const writeFile = (file, data) => {
     fs.writeFile(path.resolve(__dirname, file), data, (err) => {
@@ -42,8 +39,7 @@ const writeFile = (file, data) => {
 
 const rewriteIndex = (css, js) => {
     readFile('../views/pages/index.ejs', (data) => {
-        let viewsPath =
-            path.resolve(__dirname, '../views/') + '/';
+        let viewsPath = path.resolve(__dirname, '../views/') + '/';
         let html = ejs.render(data, {
             rootPath: viewsPath,
             icons: manifestData.icons,
