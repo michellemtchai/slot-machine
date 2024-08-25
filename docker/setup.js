@@ -1,5 +1,5 @@
 // load .env variables
-require('dotenv').config({ path: '/app/.env' });
+require('dotenv').config();
 const path = require('path');
 const fs = require('fs');
 const writeFile = (file, data) => {
