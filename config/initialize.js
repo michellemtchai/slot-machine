@@ -11,7 +11,7 @@ module.exports = (app, express, next) => {
     app.use(compression());
 
     // set favicon
-    app.use(favicon(__dirname + '../public/favicon.ico'));
+    app.use(favicon(__dirname + '/../public/favicon.ico'));
 
     if (process.env.NODE_ENV == 'development') {
         // allow cross-origin requests
