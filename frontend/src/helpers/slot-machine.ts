@@ -31,7 +31,7 @@ export const getBlockImage = (block: string): string => {
     }
 };
 const formatFile = (name: string) => {
-    return process.env.NODE_ENV == 'production'
+    return environment.NODE_ENV == 'production'
         ? `/public/assets/${name}.svg`
         : `/assets/${name}.svg`;
 };
