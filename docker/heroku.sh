@@ -1,6 +1,9 @@
 #! /bin/sh
 
 if [ "$NODE_ENV" = "production" ]; then
+    # install packages
+    yarn install
+
     # Build Angular app
     cd ./frontend
     yarn install
