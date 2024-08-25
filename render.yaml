@@ -5,4 +5,4 @@ services:
     runtime: node
     repo: https://github.com/michellemtchai/slot-machine.git
     buildCommand: './docker/heroku.sh && yarn install'
-    startCommand: 'yarn start'
+    startCommand: 'yarn prod'
