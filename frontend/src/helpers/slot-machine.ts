@@ -6,7 +6,7 @@ export const defaultSlots: Array<string> = new Array<string>('C', 'L', 'O');
 export const busyCheckAction = (
     rolling: boolean,
     cashingOut: boolean,
-    action: () => void
+    action: () => void,
 ) => {
     if (rolling) {
         alert(MACHINE_ROLLING);
@@ -31,5 +31,7 @@ export const getBlockImage = (block: string): string => {
     }
 };
 const formatFile = (name: string) => {
-    return `/assets/${name}.svg`;
+    return process.env.NODE_ENV == 'production'
+        ? `/public/assets/${name}.svg`
+        : `/assets/${name}.svg`;
 };
